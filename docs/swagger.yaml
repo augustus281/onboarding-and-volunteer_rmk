@@ -1,0 +1,1117 @@
+definitions:
+  domain.Country:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  domain.Department:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      location:
+        type: string
+      name:
+        type: string
+      status:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  domain.Request:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      rejectNotes:
+        type: string
+      status:
+        type: integer
+      type:
+        type: string
+      updatedAt:
+        type: string
+      userID:
+        type: integer
+      verifierID:
+        type: integer
+    type: object
+  domain.Role:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  domain.Volunteer:
+    properties:
+      createdAt:
+        type: string
+      departmentID:
+        type: integer
+      id:
+        type: integer
+      status:
+        type: integer
+      updatedAt:
+        type: string
+      userID:
+        type: integer
+    type: object
+  dto.AddRejectNoteRequest:
+    properties:
+      notes:
+        type: string
+    type: object
+  dto.ApplicantCreateDTO:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      surname:
+        type: string
+    required:
+    - email
+    - name
+    - surname
+    type: object
+  dto.ApplicantRequestCreatingDTO:
+    properties:
+      status:
+        type: integer
+      type:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - status
+    - type
+    - user_id
+    type: object
+  dto.ApplicantResponseDTO:
+    properties:
+      country_id:
+        type: integer
+      department_id:
+        type: integer
+      dob:
+        type: string
+      email:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      mobile:
+        type: string
+      name:
+        type: string
+      resident_country_id:
+        type: integer
+      role_id:
+        type: integer
+      surname:
+        type: string
+    type: object
+  dto.AppplicantUpdateDTO:
+    properties:
+      country_id:
+        type: integer
+      department_id:
+        type: integer
+      dob:
+        type: string
+      email:
+        type: string
+      gender:
+        type: string
+      mobile:
+        type: string
+      name:
+        type: string
+      resident_country_id:
+        type: integer
+      role_id:
+        type: integer
+      surname:
+        type: string
+    type: object
+  dto.CountryCreateDTO:
+    properties:
+      name:
+        type: string
+      status:
+        type: integer
+    required:
+    - name
+    - status
+    type: object
+  dto.CountryUpdateDTO:
+    properties:
+      name:
+        type: string
+      status:
+        type: integer
+    type: object
+  dto.CreateUserIdentityRequest:
+    properties:
+      expiry_date:
+        type: string
+      number:
+        type: string
+      place_issued:
+        type: string
+      status:
+        type: integer
+      type:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - expiry_date
+    - number
+    - place_issued
+    - status
+    - type
+    - user_id
+    type: object
+  dto.DepartmentCreateDTO:
+    properties:
+      location:
+        type: string
+      name:
+        type: string
+      status:
+        type: integer
+    required:
+    - location
+    - name
+    - status
+    type: object
+  dto.DepartmentUpdateDTO:
+    properties:
+      location:
+        type: string
+      name:
+        type: string
+      status:
+        type: integer
+    required:
+    - location
+    - name
+    - status
+    type: object
+  dto.ListRequest:
+    properties:
+      requests:
+        items:
+          $ref: '#/definitions/domain.Request'
+        type: array
+    type: object
+  dto.LoginUserRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.LoginUserResponse:
+    properties:
+      avatar:
+        type: string
+      country_id:
+        type: integer
+      department_id:
+        type: integer
+      dob:
+        type: string
+      email:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      mobile:
+        type: string
+      name:
+        type: string
+      resident_country_id:
+        type: integer
+      role_id:
+        type: integer
+      status:
+        type: integer
+      surname:
+        type: string
+      verification_status:
+        type: integer
+    type: object
+  dto.RegisterUserRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      re_password:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - re_password
+    type: object
+  dto.RegisterUserResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  dto.RequestResponse:
+    properties:
+      create_at:
+        type: string
+      id:
+        type: integer
+      reject_notes:
+        type: string
+      status:
+        type: integer
+      type:
+        type: string
+      update_at:
+        type: string
+      user_id:
+        type: integer
+      verifier_id:
+        type: integer
+    type: object
+  dto.RoleCreateDTO:
+    properties:
+      name:
+        type: string
+      status:
+        type: integer
+    required:
+    - name
+    - status
+    type: object
+  dto.RoleUpdateDTO:
+    properties:
+      name:
+        type: string
+      status:
+        type: integer
+    required:
+    - name
+    - status
+    type: object
+  dto.UpdateUserIdentityRequest:
+    properties:
+      expiry_date:
+        type: string
+      number:
+        type: string
+      place_issued:
+        type: string
+      status:
+        type: integer
+      type:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dto.UserIdentityResponse:
+    properties:
+      expiry_date:
+        type: string
+      id:
+        type: integer
+      number:
+        type: string
+      place_issued:
+        type: string
+      status:
+        type: integer
+      type:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dto.VolunteerCreateDTO:
+    properties:
+      department_id:
+        type: integer
+      status:
+        type: integer
+      user_id:
+        type: integer
+    required:
+    - department_id
+    - status
+    - user_id
+    type: object
+  dto.VolunteerUpdateDTO:
+    properties:
+      department_id:
+        type: integer
+      status:
+        type: integer
+    type: object
+  dto.VoluteerRequestCreatingDTO:
+    properties:
+      status:
+        type: integer
+      type:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - status
+    - type
+    - user_id
+    type: object
+info:
+  contact: {}
+  description: This is a volunteer service API
+  title: Onboarding and Volunteer Service API
+  version: "1.0"
+paths:
+  /api/v1/admin/add-reject-notes/{id}:
+    post:
+      description: Add reject notes
+      parameters:
+      - description: Request ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Add Reject Note Request
+        in: body
+        name: notes
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AddRejectNoteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      security:
+      - bearerToken: []
+      summary: Add reject notes
+      tags:
+      - admin
+  /api/v1/admin/approve-request/{id}:
+    post:
+      description: Approve request
+      parameters:
+      - description: Request ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      security:
+      - bearerToken: []
+      summary: Approve request
+      tags:
+      - admin
+  /api/v1/admin/delete-request/{id}:
+    delete:
+      description: Delete request
+      parameters:
+      - description: Request ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      security:
+      - bearerToken: []
+      summary: Delete request
+      tags:
+      - admin
+  /api/v1/admin/list-pending-request:
+    get:
+      description: Get list pending request
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ListRequest'
+      security:
+      - bearerToken: []
+      summary: Get list pending request
+      tags:
+      - admin
+  /api/v1/admin/list-request:
+    get:
+      description: Get list request
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ListRequest'
+      security:
+      - bearerToken: []
+      summary: Get list request
+      tags:
+      - admin
+  /api/v1/admin/pending-request/{id}:
+    get:
+      description: Get pending request by ID
+      parameters:
+      - description: Request ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RequestResponse'
+      security:
+      - bearerToken: []
+      summary: Get pending request by ID
+      tags:
+      - admin
+  /api/v1/admin/reject-request/{id}:
+    post:
+      description: Reject request
+      parameters:
+      - description: Request ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      security:
+      - bearerToken: []
+      summary: Reject request
+      tags:
+      - admin
+  /api/v1/admin/request/{id}:
+    get:
+      description: Get request by ID
+      parameters:
+      - description: Request ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RequestResponse'
+      security:
+      - bearerToken: []
+      summary: Get request by ID
+      tags:
+      - admin
+  /api/v1/applicant-identity/:
+    post:
+      description: Create user identity
+      parameters:
+      - description: Create User Identity Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateUserIdentityRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: User identity created successfully
+          schema:
+            type: string
+      summary: Create user identity
+      tags:
+      - user_identity
+  /api/v1/applicant-identity/{id}:
+    get:
+      description: Find user identity
+      parameters:
+      - description: Identity ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserIdentityResponse'
+      summary: Find user identity
+      tags:
+      - user_identity
+    put:
+      description: Update user identity
+      parameters:
+      - description: Identity ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update User Identity Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateUserIdentityRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User identity updated successfully
+          schema:
+            type: string
+      summary: Update user identity
+      tags:
+      - user_identity
+  /api/v1/applicant-request/:
+    post:
+      description: Create request
+      parameters:
+      - description: Create Request Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ApplicantRequestCreatingDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Request created successfully
+          schema:
+            type: string
+      summary: Create request
+      tags:
+      - request
+  /api/v1/applicant/:
+    post:
+      description: Create applicant
+      parameters:
+      - description: Create Applicant Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ApplicantCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Applicant created successfully
+          schema:
+            type: string
+      summary: Create applicant
+      tags:
+      - applicant
+  /api/v1/applicant/{id}:
+    delete:
+      description: Delete applicant
+      parameters:
+      - description: Applicant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Delete applicant
+      tags:
+      - applicant
+    get:
+      description: Find applicant by ID
+      parameters:
+      - description: Applicant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ApplicantResponseDTO'
+      summary: Find applicant by ID
+      tags:
+      - applicant
+    put:
+      description: Update applicant
+      parameters:
+      - description: Applicant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Applicant Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AppplicantUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Applicant updated successfully
+          schema:
+            type: string
+      summary: Update applicant
+      tags:
+      - applicant
+  /api/v1/auth/login:
+    post:
+      description: Login
+      parameters:
+      - description: Login User Request
+        in: body
+        name: loginUserRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginUserResponse'
+      summary: Login
+      tags:
+      - authentication
+  /api/v1/auth/register:
+    post:
+      description: Register
+      parameters:
+      - description: Register User Request
+        in: body
+        name: registerUserRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RegisterUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RegisterUserResponse'
+      summary: Register
+      tags:
+      - authentication
+  /api/v1/countries:
+    post:
+      consumes:
+      - application/json
+      description: Create a new country
+      parameters:
+      - description: Country data
+        in: body
+        name: country
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CountryCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Country'
+      summary: Create a new country
+      tags:
+      - country
+  /api/v1/countries/{id}:
+    delete:
+      description: Delete country
+      parameters:
+      - description: Country ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+      summary: Delete country
+      tags:
+      - country
+    get:
+      description: Get country by ID
+      parameters:
+      - description: Country ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Country'
+      summary: Get country by ID
+      tags:
+      - country
+    put:
+      consumes:
+      - application/json
+      description: Update country
+      parameters:
+      - description: Country ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Country data
+        in: body
+        name: country
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CountryUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Country'
+      summary: Update country
+      tags:
+      - country
+  /api/v1/departments:
+    post:
+      consumes:
+      - application/json
+      description: Create a new department
+      parameters:
+      - description: Department data
+        in: body
+        name: department
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DepartmentCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Department'
+      summary: Create a new department
+      tags:
+      - department
+  /api/v1/departments/{id}:
+    delete:
+      description: Delete department
+      parameters:
+      - description: Department ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete department
+      tags:
+      - department
+    get:
+      description: Get department by ID
+      parameters:
+      - description: Department ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Department'
+      summary: Get department by ID
+      tags:
+      - department
+    put:
+      consumes:
+      - application/json
+      description: Update department
+      parameters:
+      - description: Department ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Department data
+        in: body
+        name: department
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DepartmentUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Department'
+      summary: Update department
+      tags:
+      - department
+  /api/v1/role/:
+    post:
+      description: Create role
+      parameters:
+      - description: Create Role Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RoleCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Role'
+      summary: Create role
+      tags:
+      - role
+  /api/v1/role/{id}:
+    delete:
+      description: Delete role
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete role
+      tags:
+      - role
+    get:
+      description: Get role by ID
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Role'
+      summary: Get role by ID
+      tags:
+      - role
+    put:
+      description: Update role
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Role Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RoleUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Role'
+      summary: Update role
+      tags:
+      - role
+  /api/v1/volunteer/:
+    post:
+      description: Create volunteer
+      parameters:
+      - description: Create Volunteer Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.VolunteerCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Volunteer created successfully
+          schema:
+            type: string
+      summary: Create volunteer
+      tags:
+      - volunteer
+  /api/v1/volunteer/{id}:
+    delete:
+      description: Delete volunteer
+      parameters:
+      - description: Volunteer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Volunteer deleted successfully
+          schema:
+            type: string
+      summary: Delete volunteer
+      tags:
+      - volunteer
+    get:
+      description: Find volunteer by ID
+      parameters:
+      - description: Volunteer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Volunteer'
+      summary: Find volunteer by ID
+      tags:
+      - volunteer
+    put:
+      description: Update volunteer
+      parameters:
+      - description: Volunteer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Volunteer Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.VolunteerUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Volunteer updated successfully
+          schema:
+            type: string
+      summary: Update volunteer
+      tags:
+      - volunteer
+  /api/v1/volunteer/request:
+    post:
+      consumes:
+      - application/json
+      description: Create a new volunteer request
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.VoluteerRequestCreatingDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+      summary: Create a new volunteer request
+      tags:
+      - volunteer
+securityDefinitions:
+  bearerToken:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
