@@ -1,8 +1,9 @@
-CREATE TABLE 'login_in' (
+CREATE TABLE login_in (
     'id' SERIAL PRIMARY KEY,
     'username' VARCHAR(50) UNIQUE NOT NULL,
     'password' VARCHAR(255) NOT NULL,
     'email' VARCHAR(100) UNIQUE NOT NULL,
+    'user_id' INT REFERENCES users(id), -- Foreign key referencing the users table
     'created_at' TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     'updated_at' TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
