@@ -47,3 +47,11 @@ func (r *SignInRepositoryImpl) UpdateSignIn(signIn *domain.SignIn) error {
 	result := r.DB.Save(signIn)
 	return result.Error
 }
+
+// DeleteSignIn deletes a sign-in record from the database.
+func (r *SignInRepositoryImpl) DeleteSignIn(id uint) error {
+	var signIn domain.SignIn
+	result := r.DB.Delete(&signIn, id)
+	return result.Error
+}
+
