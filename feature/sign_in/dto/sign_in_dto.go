@@ -11,6 +11,7 @@ type SignInResponseDTO struct {
 	ID        uint   `json:"id"`
 	Username  string `json:"username"`
 	Email     string `json:"email"`
+	UserID    uint   `json:"user_id"`
 	Token     string `json:"token"`
 	CreatedAt string `json:"created_at"`
 	UpdatedAt string `json:"updated_at"`
@@ -21,6 +22,7 @@ type SignUpRequestDTO struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 	Email    string `json:"email" binding:"required,email"`
+	UserID   uint   `json:"user_id" binding:"required"`
 }
 
 // SignUpResponseDTO is used to send back a response after a successful sign-up.
@@ -28,6 +30,7 @@ type SignUpResponseDTO struct {
 	ID        uint   `json:"id"`
 	Username  string `json:"username"`
 	Email     string `json:"email"`
+	UserID    uint   `json:"user_id"`
 	CreatedAt string `json:"created_at"`
 	UpdatedAt string `json:"updated_at"`
 }
