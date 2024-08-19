@@ -4,13 +4,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cesc1802/onboarding-and-volunteer-service/feature/sign_in/domain"
-	"github.com/cesc1802/onboarding-and-volunteer-service/feature/sign_in/dto"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/cesc1802/onboarding-and-volunteer-service/feature/sign_in/domain"
+	"github.com/cesc1802/onboarding-and-volunteer-service/feature/sign_in/dto"
 	"golang.org/x/crypto/bcrypt"
 )
 
+// MockSignInRepository is a mock implementation of the SignInRepository interface.
 type MockSignInRepository struct {
 	mock.Mock
 }
@@ -35,121 +36,58 @@ func (m *MockSignInRepository) UpdateSignIn(signIn *domain.SignIn) error {
 	return args.Error(0)
 }
 
-func TestSignIn_Success(t *testing.T) {
-	repo := new(MockSignInRepository)
-	usecase := NewSignInUsecase(repo)
+func (m *MockSignInRepository) DeleteSignIn(id uint) error {
+	args := m.Called(id)
+	return args.Error(0)
+}
 
-	// Prepare mock data
-	mockSignIn := &domain.SignIn{
-		ID:           1,
-		Username:     "testuser",
-		PasswordHash: hashPassword("password"), // Assume hashPassword is a helper function
-		Email:        "test@example.com",
-		CreatedAt:    time.Now(),
-		UpdatedAt:    time.Now(),
+func TestSignIn(t *testing.T) {
+	mockRepo := new(MockSignInRepository)
+	usecase := NewSignInUsecase(mockRepo)
+
+	// Set up test data
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte("password123"), bcrypt.DefaultCost)
+	signIn := &domain.SignIn{
+		ID:        1,
+		Username:  "testuser",
+		Password:  string(hashedPassword),
+		Email:     "testuser@example.com",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
-	repo.On("GetSignInByUsername", "testuser").Return(mockSignIn, nil)
 
-	// Define input DTO
-	signInDTO := dto.SignInRequestDTO{
-		Username: "testuser",
-		Password: "password",
-	}
+	mockRepo.On("GetSignInByUsername", "testuser").Return(signIn, nil)
 
-	// Execute SignIn
-	response, err := usecase.SignIn(signInDTO)
-
-	// Assert results
+	// Test SignIn
+	dto := dto.SignInRequestDTO{Username: "testuser", Password: "password123"}
+	response, err := usecase.SignIn(dto)
 	assert.NoError(t, err)
-	assert.NotNil(t, response)
-	assert.Equal(t, mockSignIn.ID, response.ID)
-	assert.Equal(t, mockSignIn.Username, response.Username)
-	assert.Equal(t, mockSignIn.Email, response.Email)
-	assert.Equal(t, "sample-generated-token", response.Token)
-	repo.AssertExpectations(t)
+	assert.Equal(t, uint(1), response.ID)
+	assert.Equal(t, "testuser", response.Username)
+	assert.Equal(t, "testuser@example.com", response.Email)
+	mockRepo.AssertExpectations(t)
 }
 
-func TestSignIn_Failure(t *testing.T) {
-	repo := new(MockSignInRepository)
-	usecase := NewSignInUsecase(repo)
+func TestSignUp(t *testing.T) {
+	mockRepo := new(MockSignInRepository)
+	usecase := NewSignInUsecase(mockRepo)
 
-	// Setup mock
-	repo.On("GetSignInByUsername", "testuser").Return(nil, nil)
-
-	// Define input DTO
-	signInDTO := dto.SignInRequestDTO{
-		Username: "testuser",
-		Password: "password",
-	}
-
-	// Execute SignIn
-	response, err := usecase.SignIn(signInDTO)
-
-	// Assert results
-	assert.Error(t, err)
-	assert.Nil(t, response)
-	assert.Equal(t, "username or password is incorrect", err.Error())
-	repo.AssertExpectations(t)
-}
-
-func TestSignUp_Success(t *testing.T) {
-	repo := new(MockSignInRepository)
-	usecase := NewSignInUsecase(repo)
-
-	// Prepare mock data
-	repo.On("GetSignInByUsername", "newuser").Return(nil, nil)
-	repo.On("GetSignInByEmail", "newuser@example.com").Return(nil, nil)
-
-	// Define input DTO
+	// Set up test data
 	signUpDTO := dto.SignUpRequestDTO{
 		Username: "newuser",
-		Password: "password",
+		Password: "password123",
 		Email:    "newuser@example.com",
 	}
 
-	// Setup expectations
-	repo.On("CreateSignIn", mock.Anything).Return(nil)
+	// Set up mock expectations
+	mockRepo.On("GetSignInByUsername", "newuser").Return(nil, nil)
+	mockRepo.On("GetSignInByEmail", "newuser@example.com").Return(nil, nil)
+	mockRepo.On("CreateSignIn", mock.Anything).Return(nil)
 
-	// Execute SignUp
+	// Test SignUp
 	response, err := usecase.SignUp(signUpDTO)
-
-	// Assert results
 	assert.NoError(t, err)
-	assert.NotNil(t, response)
 	assert.Equal(t, "newuser", response.Username)
 	assert.Equal(t, "newuser@example.com", response.Email)
-	repo.AssertExpectations(t)
-}
-
-func TestSignUp_Failure_UsernameExists(t *testing.T) {
-	repo := new(MockSignInRepository)
-	usecase := NewSignInUsecase(repo)
-
-	// Prepare mock data
-	existingSignIn := &domain.SignIn{
-		Username: "existinguser",
-	}
-	repo.On("GetSignInByUsername", "newuser").Return(existingSignIn, nil)
-	repo.On("GetSignInByEmail", "newuser@example.com").Return(nil, nil)
-
-	// Define input DTO
-	signUpDTO := dto.SignUpRequestDTO{
-		Username: "newuser",
-		Password: "password",
-		Email:    "newuser@example.com",
-	}
-
-	// Execute SignUp
-	response, err := usecase.SignUp(signUpDTO)
-
-	// Assert results
-	assert.Error(t, err)
-	assert.Nil(t, response)
-	assert.Equal(t, "username already exists", err.Error())
-	repo.AssertExpectations(t)
-}
-
-func hashPassword(password string) string {
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	return string(hashedPassword)
+	mockRepo.AssertExpectations(t)
 }

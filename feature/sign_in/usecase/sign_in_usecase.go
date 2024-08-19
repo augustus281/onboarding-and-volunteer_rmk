@@ -27,12 +27,15 @@ func NewSignInUsecase(repo domain.SignInRepository) SignInUsecase {
 func (u *SignInUsecaseImpl) SignIn(signInDTO dto.SignInRequestDTO) (*dto.SignInResponseDTO, error) {
 	// Find user by username
 	signIn, err := u.signInRepo.GetSignInByUsername(signInDTO.Username)
-	if err != nil || signIn == nil {
+	if err != nil {
+		return nil, err
+	}
+	if signIn == nil {
 		return nil, errors.New("username or password is incorrect")
 	}
 
 	// Compare password
-	if err := bcrypt.CompareHashAndPassword([]byte(signIn.PasswordHash), []byte(signInDTO.Password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(signIn.Password), []byte(signInDTO.Password)); err != nil {
 		return nil, errors.New("username or password is incorrect")
 	}
 
@@ -54,12 +57,18 @@ func (u *SignInUsecaseImpl) SignIn(signInDTO dto.SignInRequestDTO) (*dto.SignInR
 // SignUp handles the business logic for user registration.
 func (u *SignInUsecaseImpl) SignUp(signUpDTO dto.SignUpRequestDTO) (*dto.SignUpResponseDTO, error) {
 	// Check if the username or email already exists
-	existingUser, _ := u.signInRepo.GetSignInByUsername(signUpDTO.Username)
+	existingUser, err := u.signInRepo.GetSignInByUsername(signUpDTO.Username)
+	if err != nil {
+		return nil, err
+	}
 	if existingUser != nil {
 		return nil, errors.New("username already exists")
 	}
 
-	existingEmail, _ := u.signInRepo.GetSignInByEmail(signUpDTO.Email)
+	existingEmail, err := u.signInRepo.GetSignInByEmail(signUpDTO.Email)
+	if err != nil {
+		return nil, err
+	}
 	if existingEmail != nil {
 		return nil, errors.New("email already exists")
 	}
@@ -72,11 +81,12 @@ func (u *SignInUsecaseImpl) SignUp(signUpDTO dto.SignUpRequestDTO) (*dto.SignUpR
 
 	// Create the SignIn entity
 	newSignIn := &domain.SignIn{
-		Username:     signUpDTO.Username,
-		PasswordHash: string(hashedPassword),
-		Email:        signUpDTO.Email,
-		CreatedAt:    time.Now(),
-		UpdatedAt:    time.Now(),
+		Username:  signUpDTO.Username,
+		Password:  string(hashedPassword),
+		Email:     signUpDTO.Email,
+		UserID:    signUpDTO.UserID,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 
 	// Save the new user
@@ -89,6 +99,7 @@ func (u *SignInUsecaseImpl) SignUp(signUpDTO dto.SignUpRequestDTO) (*dto.SignUpR
 		ID:        newSignIn.ID,
 		Username:  newSignIn.Username,
 		Email:     newSignIn.Email,
+		UserID:    newSignIn.UserID,
 		CreatedAt: newSignIn.CreatedAt.Format(time.RFC3339),
 		UpdatedAt: newSignIn.UpdatedAt.Format(time.RFC3339),
 	}
