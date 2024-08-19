@@ -2,10 +2,10 @@ package transport
 
 import (
 	"net/http"
-
 	"github.com/cesc1802/onboarding-and-volunteer-service/feature/sign_in/dto"
 	"github.com/cesc1802/onboarding-and-volunteer-service/feature/sign_in/usecase"
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 type SignInHandler struct {
@@ -29,7 +29,8 @@ func (h *SignInHandler) SignIn(c *gin.Context) {
 
 	response, err := h.signInUsecase.SignIn(signInDTO)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		log.Printf("SignIn error: %v", err) // Logging the error
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
 		return
 	}
 
@@ -46,7 +47,12 @@ func (h *SignInHandler) SignUp(c *gin.Context) {
 
 	response, err := h.signInUsecase.SignUp(signUpDTO)
 	if err != nil {
-		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
+		log.Printf("SignUp error: %v", err) // Logging the error
+		if err.Error() == "username already exists" || err.Error() == "email already exists" {
+			c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to sign up"})
+		}
 		return
 	}
 
